@@ -1,9 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\chch\\Desktop\\\uC720\uB2C8\uD2F0 \uC2E4\uC2B5\\CuckooClock\\",
+  "WorkspaceRootPath": "C:\\_HWork\\_CodesC\\Unity\\CuckooClock\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0F4F4C51-5F09-BAF8-2E48-667531229F15}|Assembly-CSharp.csproj|c:\\users\\chch\\desktop\\\uC720\uB2C8\uD2F0 \uC2E4\uC2B5\\cuckooclock\\assets\\_my proj\\clock.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{0F4F4C51-5F09-BAF8-2E48-667531229F15}|Assembly-CSharp.csproj|c:\\_hwork\\_codesc\\unity\\cuckooclock\\assets\\_my proj\\clock.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0F4F4C51-5F09-BAF8-2E48-667531229F15}|Assembly-CSharp.csproj|solutionrelative:assets\\_my proj\\clock.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -28,11 +28,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Clock.cs",
-              "DocumentMoniker": "C:\\Users\\chch\\Desktop\\\uC720\uB2C8\uD2F0 \uC2E4\uC2B5\\CuckooClock\\Assets\\_My Proj\\Clock.cs",
+              "DocumentMoniker": "C:\\_HWork\\_CodesC\\Unity\\CuckooClock\\Assets\\_My Proj\\Clock.cs",
               "RelativeDocumentMoniker": "Assets\\_My Proj\\Clock.cs",
-              "ToolTip": "C:\\Users\\chch\\Desktop\\\uC720\uB2C8\uD2F0 \uC2E4\uC2B5\\CuckooClock\\Assets\\_My Proj\\Clock.cs",
+              "ToolTip": "C:\\_HWork\\_CodesC\\Unity\\CuckooClock\\Assets\\_My Proj\\Clock.cs",
               "RelativeToolTip": "Assets\\_My Proj\\Clock.cs",
-              "ViewState": "AgIAAEUAAAAAAAAAAAAQwEkAAABCAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-30T07:00:07.834Z",
               "EditorCaption": ""

@@ -2,17 +2,29 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+/* Comment colors
+	// R.
+	// G.
+	// B.
+	// P. 
+	// T.	tomato
+	// Y.
+	// O.	orange
+	// >> 	
+	// "#11dea1ff"	
+*/
+
 public class Clock : MonoBehaviour
 {
 
     private const float
-    hoursToDegrees = -360f / 12f,
+    hoursToDegrees = -360f / 12f,   // 시/분/초 침의 회전 방향 => 시계 방향(음(-)의 방향)
     minutesToDegrees = -360f / 60f,
     secondsToDegrees = -360f / 60f,
 
+
     speed = 3.0f,   // swing speed
     swing = 20.0f,  // swing angle
-
     door_time = 0.8f,
     door_angle = 160f,
     door_speed = door_angle / door_time,
@@ -28,8 +40,7 @@ public class Clock : MonoBehaviour
     public AudioSource SoundOpen;
     public AudioSource SoundClose;
 
-
-    public bool analog;
+    public bool analog; // 에디터에서 설정 
     public bool trigger;
 
     // bird movement
@@ -47,7 +58,7 @@ public class Clock : MonoBehaviour
 
         last_sec = 0.0f;
         bird_active = false;
-        StartCoroutine(PlayCuckoo());
+        StartCoroutine(PlayCuckoo()); // 시작시, 뻐꾸기 일단 한 번 보여주고...
 
         trigger = false;
     }
@@ -56,38 +67,50 @@ public class Clock : MonoBehaviour
     {
         float ang;
         DateTime time = DateTime.Now;
-        TimeSpan timespan = DateTime.Now.TimeOfDay;
+        TimeSpan timespan = DateTime.Now.TimeOfDay; // time vs. timespan 차이 
 
         ang = -90.0f + (float)timespan.TotalHours * hoursToDegrees;
-        hours.localRotation = Quaternion.Euler(ang, 0f, 0f);
-        ang = -90.0f + (float)timespan.TotalMinutes * minutesToDegrees;
-        minutes.localRotation = Quaternion.Euler(ang, 0f, 0f);
+        // 시/분/초 침의 회전 방향 => 시계 방향(음(-)의 방향).
+        // 참고) //Y. https://docs.google.com/document/d/1uYqFAUUjCjNlp_FarQmD0w9HNfjt4zXerDZbTLshs4Q/edit?tab=t.0#heading=h.ltuj4acvwlwr 
 
-        if (analog)
+        hours.localRotation = Quaternion.Euler(ang, 0f, 0f);
+        // 시(hour), 사원수, Euler angle의  //B. Gimbal-lock 문제
+        // 자신의 Pivot(자신의 원점)을 기준으로 시침을 회전
+
+        ang = -90.0f + (float)timespan.TotalMinutes * minutesToDegrees;
+        minutes.localRotation = Quaternion.Euler(ang, 0f, 0f);  // 분
+
+        if (analog) // 침의 움직임이 더 부드럽다
         {
             ang = -90.0f + (float)timespan.TotalSeconds * secondsToDegrees;
-            seconds.localRotation = Quaternion.Euler(ang, 0f, 0f);
+            seconds.localRotation = Quaternion.Euler(ang, 0f, 0f);  // 부드러운 초침
         }
         else
         {
-            ang = -90.0f + time.Second * secondsToDegrees;
-            seconds.localRotation = Quaternion.Euler(ang, 0f, 0f);
+            ang = -90.0f + time.Second * secondsToDegrees; //B. DateTime time. 
+            seconds.localRotation = Quaternion.Euler(ang, 0f, 0f);  // 한 번에 6도씩 회전하는 초침
         }
 
-        // pendlum control
         if (time.Second < last_sec || trigger)
+        // time.Second < last_sec 이경우는 초침이 59 => 0으로 넘어갈때. 즉 매 정각에 뻐꾸기 등장
+        // trigger = true; 설정 => 오직 InspV에서.
         {
             StartCoroutine(PlayCuckoo());
             trigger = false;
         }
         last_sec = time.Second;
 
-        t += Time.deltaTime * speed;
-        ang = -90.0f + Mathf.Sin(t) * swing;
+        // pendlum control
+        t += Time.deltaTime * speed; // 회전 각의 크기(Δθ) = 시간(Δt) x 각속도(Δω)
+        Debug.Log(">>>" + t);
 
-        Debug.Log("*******"+ang);
+        ang = -90.0f + Mathf.Sin(t) * swing; // 시계추 위치: 초기 위치(-90°) +  x 최대 스윙 궤적
+                                             // . //Y. https://docs.google.com/document/d/1uYqFAUUjCjNlp_FarQmD0w9HNfjt4zXerDZbTLshs4Q/edit?tab=t.0#heading=h.35qikxqptuj
+                                             // 
+
 
         pendlum.localRotation = Quaternion.Euler(ang, 0f, 0f);
+        // 자신의 Pivot(자신의 원점, 윗쪽 끝)을 기준으로 시계추를 회전
     }
 
     IEnumerator PlayCuckoo()
