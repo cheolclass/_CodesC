@@ -131,6 +131,8 @@ public class Clock : MonoBehaviour
             t = 0.0f;
             while (t < door_time)
             {
+	    	Debug.Log("Time.deltaTimeTime.deltaTime: "+ Time.deltaTime);
+      
                 t += Time.deltaTime;
                 door_left.Rotate(
                     new Vector3(0f, 0f, Time.deltaTime * door_speed));
