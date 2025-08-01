@@ -72,12 +72,12 @@ public class Clock : MonoBehaviour
         TimeSpan timespan = DateTime.Now.TimeOfDay; // time vs. timespan 차이 
 
         ang = -90.0f + (float)timespan.TotalHours * hoursToDegrees;
-            // 시/분/초 침의 회전 방향 => 시계 방향(음(-)의 방향).
-            // 참고) //Y. https://docs.google.com/document/d/1uYqFAUUjCjNlp_FarQmD0w9HNfjt4zXerDZbTLshs4Q/edit?tab=t.0#heading=h.ltuj4acvwlwr 
+        // 시/분/초 침의 회전 방향 => 시계 방향(음(-)의 방향).
+        // 참고) //Y. https://docs.google.com/document/d/1uYqFAUUjCjNlp_FarQmD0w9HNfjt4zXerDZbTLshs4Q/edit?tab=t.0#heading=h.ltuj4acvwlwr 
 
         hours.localRotation = Quaternion.Euler(ang, 0f, 0f);
-            // 시(hour), 사원수, Euler angle의  //B. Gimbal-lock 문제
-			// 자신의 Pivot(자신의 원점)을 기준으로 시침을 회전
+        // 시(hour), 사원수, Euler angle의  //B. Gimbal-lock 문제
+        // 자신의 Pivot(자신의 원점)을 기준으로 시침을 회전
 
         ang = -90.0f + (float)timespan.TotalMinutes * minutesToDegrees;
         minutes.localRotation = Quaternion.Euler(ang, 0f, 0f);  // 분
@@ -94,8 +94,8 @@ public class Clock : MonoBehaviour
         }
 
         if (time.Second < last_sec || trigger)
-            // time.Second < last_sec 이경우는 초침이 59 => 0으로 넘어갈때. 즉 매 정각에 뻐꾸기 등장
-			// trigger = true; 설정 => 오직 InspV에서.
+        // time.Second < last_sec 이경우는 초침이 59 => 0으로 넘어갈때. 즉 매 정각에 뻐꾸기 등장
+        // trigger = true; 설정 => 오직 InspV에서.
         {
             StartCoroutine(PlayCuckoo());
             trigger = false;
@@ -104,15 +104,16 @@ public class Clock : MonoBehaviour
 
         // pendlum control
         t += Time.deltaTime * speed; // 회전 각의 크기(Δθ) = 시간(Δt) x 각속도(Δω)
-        Debug.Log(">>>" + t);
 
-        ang = -90.0f + Mathf.Sin(t) * swing; // 시계추 위치: 초기 위치(-90°) +  x 최대 스윙 궤적
-                                             // Y. //Y. https://docs.google.com/document/d/1uYqFAUUjCjNlp_FarQmD0w9HNfjt4zXerDZbTLshs4Q/edit?tab=t.0#heading=h.35qikxqptuj
-                                             // 
+        ang = -90.0f + Mathf.Sin(t) * swing;
+        // 시계추 위치: 초기 위치(-90°) + 추 진동값(-1 ~ 1) x 최대 스윙 궤적         
+        // Y. //Y. https://docs.google.com/document/d/1uYqFAUUjCjNlp_FarQmD0w9HNfjt4zXerDZbTLshs4Q/edit?tab=t.0#heading=h.35qikxqptuj
 
+        //Debug.Log(">>> ang: " + ang);    //test
 
         pendlum.localRotation = Quaternion.Euler(ang, 0f, 0f);
         // 자신의 Pivot(자신의 원점, 윗쪽 끝)을 기준으로 시계추를 회전
+            //G. -90 ~ -70 ~ -90 ~ -110 ~ -90 ~ 궤적을 반복 
     }
 
     IEnumerator PlayCuckoo()
