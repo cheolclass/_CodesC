@@ -1,0 +1,28 @@
+# .gitignore 파일의 위치는 프로젝트 폴더 바로 위를 가정
+
+# 유니티에서 자동 생성되는 폴더들 제외
+**/[Ll]ibrary/
+**/[Tt]emp/
+**/[Oo]bj/
+**/[Bb]uild/
+**/[Bb]uilds/
+**/[Ll]ogs/
+**/[Uu]ser[Ss]ettings/
+
+# 빌드 결과물 제외
+**/*.apk
+**/*.aab
+#**/*.unitypackage
+
+# Visual Studio 관련 파일 제외
+**/.vscode/
+**/*.csproj
+**/*.sln
+**/*.userprefs
+
+# Unity Collab 관련 파일 제외
+**/.Collab/
+
+# 기타 OS별 불필요한 파일 제외
+**/.DS_Store
+**/Thumbs.db
