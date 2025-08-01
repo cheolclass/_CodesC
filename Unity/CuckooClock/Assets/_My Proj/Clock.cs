@@ -94,12 +94,14 @@ public class Clock : MonoBehaviour
         }
 
         if (time.Second < last_sec || trigger)
-        // time.Second < last_sec 이경우는 초침이 59 => 0으로 넘어갈때. 즉 매 정각에 뻐꾸기 등장
-        // trigger = true; 설정 => 오직 InspV에서.
+        // time.Second < last_sec 이경우는 초침이 59 => 0으로 넘어갈때
+        // 즉 매 정각에 뻐꾸기 등장
+        // trigger = true; InspV에서 설정
         {
-            StartCoroutine(PlayCuckoo());
+            StartCoroutine(PlayCuckoo());   //p. 뻐꾸기 등장 처리 루틴 호출 
             trigger = false;
         }
+        
         last_sec = time.Second;
 
         // pendlum control
