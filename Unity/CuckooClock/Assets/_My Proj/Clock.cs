@@ -19,7 +19,6 @@ public class Clock : MonoBehaviour
 
     private const float
     hoursToDegrees = -360f / 12f,   // 시/분/초 침의 회전 방향 => 시계 방향(음(-)의 방향)
-    // 4 test... ��/��/�� ħ�� ȸ�� ���� => �ð� ����(��(-)�� ����)
                                      
     minutesToDegrees = -360f / 60f,
     secondsToDegrees = -360f / 60f,
@@ -42,7 +41,7 @@ public class Clock : MonoBehaviour
     public AudioSource SoundOpen;
     public AudioSource SoundClose;
 
-    public bool analog; // 에디터에서 설정 
+    public bool analog; // 에디터(InspV)에서 설정 
     public bool trigger;
 
     // bird movement
@@ -72,6 +71,7 @@ public class Clock : MonoBehaviour
         TimeSpan timespan = DateTime.Now.TimeOfDay; // time vs. timespan 차이 
 
         ang = -90.0f + (float)timespan.TotalHours * hoursToDegrees;
+        Debug.Log("***** ang: " + ang);
         // 시/분/초 침의 회전 방향 => 시계 방향(음(-)의 방향).
         // 참고) //Y. https://docs.google.com/document/d/1uYqFAUUjCjNlp_FarQmD0w9HNfjt4zXerDZbTLshs4Q/edit?tab=t.0#heading=h.ltuj4acvwlwr 
 
@@ -79,8 +79,13 @@ public class Clock : MonoBehaviour
         // 시(hour), 사원수, Euler angle의  //B. Gimbal-lock 문제
         // 자신의 Pivot(자신의 원점)을 기준으로 시침을 회전
 
+        Debug.Log("***** timespan.TotalHours: " + (float)timespan.TotalHours);
+        Debug.Log("***** Hours: " + ang);
+
         ang = -90.0f + (float)timespan.TotalMinutes * minutesToDegrees;
         minutes.localRotation = Quaternion.Euler(ang, 0f, 0f);  // 분
+
+        Debug.Log("***** Minutes: " + ang);
 
         if (analog) // 침의 움직임이 더 부드럽다
         {
@@ -91,12 +96,14 @@ public class Clock : MonoBehaviour
         {
             ang = -90.0f + time.Second * secondsToDegrees; //B. DateTime time. 
             seconds.localRotation = Quaternion.Euler(ang, 0f, 0f);  // 한 번에 6도씩 회전하는 초침
+
+            Debug.Log("***** Second: " + ang);
         }
 
         if (time.Second < last_sec || trigger)
         // time.Second < last_sec 이경우는 초침이 59 => 0으로 넘어갈때
         // 즉 매 정각에 뻐꾸기 등장
-        // trigger = true; InspV에서 설정
+        // trigger = true; 에디터에서 설정
         {
             StartCoroutine(PlayCuckoo());   //p. 뻐꾸기 등장 처리 루틴 호출 
             trigger = false;
