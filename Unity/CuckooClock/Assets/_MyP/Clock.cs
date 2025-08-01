@@ -26,7 +26,7 @@ public class Clock : MonoBehaviour
 
     speed = 3.0f,   // swing speed
     swing = 20.0f,  // swing angle
-    door_time = 0.8f,
+    door_time = 0.8f, //g. about 1 sec
     door_angle = 160f,
     door_speed = door_angle / door_time,
 
@@ -71,21 +71,15 @@ public class Clock : MonoBehaviour
         TimeSpan timespan = DateTime.Now.TimeOfDay; // time vs. timespan 차이 
 
         ang = -90.0f + (float)timespan.TotalHours * hoursToDegrees;
-        Debug.Log("***** ang: " + ang);
-        // 시/분/초 침의 회전 방향 => 시계 방향(음(-)의 방향).
+        // 시/분/초 침의 회전 방향 => 시계 방향(음(-)의 방향)
         // 참고) //Y. https://docs.google.com/document/d/1uYqFAUUjCjNlp_FarQmD0w9HNfjt4zXerDZbTLshs4Q/edit?tab=t.0#heading=h.ltuj4acvwlwr 
 
         hours.localRotation = Quaternion.Euler(ang, 0f, 0f);
         // 시(hour), 사원수, Euler angle의  //B. Gimbal-lock 문제
         // 자신의 Pivot(자신의 원점)을 기준으로 시침을 회전
 
-        Debug.Log("***** timespan.TotalHours: " + (float)timespan.TotalHours);
-        Debug.Log("***** Hours: " + ang);
-
         ang = -90.0f + (float)timespan.TotalMinutes * minutesToDegrees;
         minutes.localRotation = Quaternion.Euler(ang, 0f, 0f);  // 분
-
-        Debug.Log("***** Minutes: " + ang);
 
         if (analog) // 침의 움직임이 더 부드럽다
         {
@@ -96,8 +90,6 @@ public class Clock : MonoBehaviour
         {
             ang = -90.0f + time.Second * secondsToDegrees; //B. DateTime time. 
             seconds.localRotation = Quaternion.Euler(ang, 0f, 0f);  // 한 번에 6도씩 회전하는 초침
-
-            Debug.Log("***** Second: " + ang);
         }
 
         if (time.Second < last_sec || trigger)
@@ -118,11 +110,9 @@ public class Clock : MonoBehaviour
         // 시계추 위치: 초기 위치(-90°) + 추 진동값(-1 ~ 1) x 최대 스윙 궤적         
         // Y. //Y. https://docs.google.com/document/d/1uYqFAUUjCjNlp_FarQmD0w9HNfjt4zXerDZbTLshs4Q/edit?tab=t.0#heading=h.35qikxqptuj
 
-        //Debug.Log(">>> ang: " + ang);    //test
-
         pendlum.localRotation = Quaternion.Euler(ang, 0f, 0f);
         // 자신의 Pivot(자신의 원점, 윗쪽 끝)을 기준으로 시계추를 회전
-            //G. -90 ~ -70 ~ -90 ~ -110 ~ -90 ~ 궤적을 반복 
+        //G. -90 ~ -70 ~ -90 ~ -110 ~ -90 ~ 궤적을 반복 
     }
 
     IEnumerator PlayCuckoo()
@@ -140,7 +130,7 @@ public class Clock : MonoBehaviour
             t = 0.0f;
             while (t < door_time)
             {
-	    	Debug.Log("Time.deltaTimeTime.deltaTime: "+ Time.deltaTime);
+	    	    Debug.Log("Time.deltaTimeTime.deltaTime: "+ Time.deltaTime);
       
                 t += Time.deltaTime;
                 door_left.Rotate(
