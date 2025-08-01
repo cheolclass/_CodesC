@@ -15,7 +15,7 @@
 #**/*.unitypackage
 
 # Visual Studio 관련 파일 제외
-**/.vscode/
+#**/.vscode/
 **/*.csproj
 **/*.sln
 **/*.userprefs
