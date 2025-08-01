@@ -18,7 +18,9 @@ public class Clock : MonoBehaviour
 {
 
     private const float
-    hoursToDegrees = -360f / 12f,   // ½Ã/ºĞ/ÃÊ Ä§ÀÇ È¸Àü ¹æÇâ => ½Ã°è ¹æÇâ(À½(-)ÀÇ ¹æÇâ)
+    hoursToDegrees = -360f / 12f,   // ì‹œ/ë¶„/ì´ˆ ì¹¨ì˜ íšŒì „ ë°©í–¥ => ì‹œê³„ ë°©í–¥(ìŒ(-)ì˜ ë°©í–¥)
+    // 4 test... ï¿½ï¿½/ï¿½ï¿½/ï¿½ï¿½ Ä§ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ => ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½(-)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+                                     
     minutesToDegrees = -360f / 60f,
     secondsToDegrees = -360f / 60f,
 
@@ -40,7 +42,7 @@ public class Clock : MonoBehaviour
     public AudioSource SoundOpen;
     public AudioSource SoundClose;
 
-    public bool analog; // ¿¡µğÅÍ¿¡¼­ ¼³Á¤ 
+    public bool analog; // ì—ë””í„°ì—ì„œ ì„¤ì • 
     public bool trigger;
 
     // bird movement
@@ -58,7 +60,7 @@ public class Clock : MonoBehaviour
 
         last_sec = 0.0f;
         bird_active = false;
-        StartCoroutine(PlayCuckoo()); // ½ÃÀÛ½Ã, »µ²Ù±â ÀÏ´Ü ÇÑ ¹ø º¸¿©ÁÖ°í...
+        StartCoroutine(PlayCuckoo()); // ì‹œì‘ì‹œ, ë»ê¾¸ê¸° ì¼ë‹¨ í•œ ë²ˆ ë³´ì—¬ì£¼ê³ ...
 
         trigger = false;
     }
@@ -67,33 +69,33 @@ public class Clock : MonoBehaviour
     {
         float ang;
         DateTime time = DateTime.Now;
-        TimeSpan timespan = DateTime.Now.TimeOfDay; // time vs. timespan Â÷ÀÌ 
+        TimeSpan timespan = DateTime.Now.TimeOfDay; // time vs. timespan ì°¨ì´ 
 
         ang = -90.0f + (float)timespan.TotalHours * hoursToDegrees;
-        // ½Ã/ºĞ/ÃÊ Ä§ÀÇ È¸Àü ¹æÇâ => ½Ã°è ¹æÇâ(À½(-)ÀÇ ¹æÇâ).
-        // Âü°í) //Y. https://docs.google.com/document/d/1uYqFAUUjCjNlp_FarQmD0w9HNfjt4zXerDZbTLshs4Q/edit?tab=t.0#heading=h.ltuj4acvwlwr 
+            // ì‹œ/ë¶„/ì´ˆ ì¹¨ì˜ íšŒì „ ë°©í–¥ => ì‹œê³„ ë°©í–¥(ìŒ(-)ì˜ ë°©í–¥).
+            // ì°¸ê³ ) //Y. https://docs.google.com/document/d/1uYqFAUUjCjNlp_FarQmD0w9HNfjt4zXerDZbTLshs4Q/edit?tab=t.0#heading=h.ltuj4acvwlwr 
 
         hours.localRotation = Quaternion.Euler(ang, 0f, 0f);
-        // ½Ã(hour), »ç¿ø¼ö, Euler angleÀÇ  //B. Gimbal-lock ¹®Á¦
-        // ÀÚ½ÅÀÇ Pivot(ÀÚ½ÅÀÇ ¿øÁ¡)À» ±âÁØÀ¸·Î ½ÃÄ§À» È¸Àü
+            // ì‹œ(hour), ì‚¬ì›ìˆ˜, Euler angleì˜  //B. Gimbal-lock ë¬¸ì œ
+			// ìì‹ ì˜ Pivot(ìì‹ ì˜ ì›ì )ì„ ê¸°ì¤€ìœ¼ë¡œ ì‹œì¹¨ì„ íšŒì „
 
         ang = -90.0f + (float)timespan.TotalMinutes * minutesToDegrees;
-        minutes.localRotation = Quaternion.Euler(ang, 0f, 0f);  // ºĞ
+        minutes.localRotation = Quaternion.Euler(ang, 0f, 0f);  // ë¶„
 
-        if (analog) // Ä§ÀÇ ¿òÁ÷ÀÓÀÌ ´õ ºÎµå·´´Ù
+        if (analog) // ì¹¨ì˜ ì›€ì§ì„ì´ ë” ë¶€ë“œëŸ½ë‹¤
         {
             ang = -90.0f + (float)timespan.TotalSeconds * secondsToDegrees;
-            seconds.localRotation = Quaternion.Euler(ang, 0f, 0f);  // ºÎµå·¯¿î ÃÊÄ§
+            seconds.localRotation = Quaternion.Euler(ang, 0f, 0f);  // ë¶€ë“œëŸ¬ìš´ ì´ˆì¹¨
         }
         else
         {
             ang = -90.0f + time.Second * secondsToDegrees; //B. DateTime time. 
-            seconds.localRotation = Quaternion.Euler(ang, 0f, 0f);  // ÇÑ ¹ø¿¡ 6µµ¾¿ È¸ÀüÇÏ´Â ÃÊÄ§
+            seconds.localRotation = Quaternion.Euler(ang, 0f, 0f);  // í•œ ë²ˆì— 6ë„ì”© íšŒì „í•˜ëŠ” ì´ˆì¹¨
         }
 
         if (time.Second < last_sec || trigger)
-        // time.Second < last_sec ÀÌ°æ¿ì´Â ÃÊÄ§ÀÌ 59 => 0À¸·Î ³Ñ¾î°¥¶§. Áï ¸Å Á¤°¢¿¡ »µ²Ù±â µîÀå
-        // trigger = true; ¼³Á¤ => ¿ÀÁ÷ InspV¿¡¼­.
+            // time.Second < last_sec ì´ê²½ìš°ëŠ” ì´ˆì¹¨ì´ 59 => 0ìœ¼ë¡œ ë„˜ì–´ê°ˆë•Œ. ì¦‰ ë§¤ ì •ê°ì— ë»ê¾¸ê¸° ë“±ì¥
+			// trigger = true; ì„¤ì • => ì˜¤ì§ InspVì—ì„œ.
         {
             StartCoroutine(PlayCuckoo());
             trigger = false;
@@ -101,16 +103,16 @@ public class Clock : MonoBehaviour
         last_sec = time.Second;
 
         // pendlum control
-        t += Time.deltaTime * speed; // È¸Àü °¢ÀÇ Å©±â(¥Ä¥è) = ½Ã°£(¥Ät) x °¢¼Óµµ(¥Ä¥ø)
+        t += Time.deltaTime * speed; // íšŒì „ ê°ì˜ í¬ê¸°(Î”Î¸) = ì‹œê°„(Î”t) x ê°ì†ë„(Î”Ï‰)
         Debug.Log(">>>" + t);
 
-        ang = -90.0f + Mathf.Sin(t) * swing; // ½Ã°èÃß À§Ä¡: ÃÊ±â À§Ä¡(-90¡Æ) +  x ÃÖ´ë ½ºÀ® ±ËÀû
-                                             // . //Y. https://docs.google.com/document/d/1uYqFAUUjCjNlp_FarQmD0w9HNfjt4zXerDZbTLshs4Q/edit?tab=t.0#heading=h.35qikxqptuj
+        ang = -90.0f + Mathf.Sin(t) * swing; // ì‹œê³„ì¶” ìœ„ì¹˜: ì´ˆê¸° ìœ„ì¹˜(-90Â°) +  x ìµœëŒ€ ìŠ¤ìœ™ ê¶¤ì 
+                                             // Y. //Y. https://docs.google.com/document/d/1uYqFAUUjCjNlp_FarQmD0w9HNfjt4zXerDZbTLshs4Q/edit?tab=t.0#heading=h.35qikxqptuj
                                              // 
 
 
         pendlum.localRotation = Quaternion.Euler(ang, 0f, 0f);
-        // ÀÚ½ÅÀÇ Pivot(ÀÚ½ÅÀÇ ¿øÁ¡, À­ÂÊ ³¡)À» ±âÁØÀ¸·Î ½Ã°èÃß¸¦ È¸Àü
+        // ìì‹ ì˜ Pivot(ìì‹ ì˜ ì›ì , ìœ—ìª½ ë)ì„ ê¸°ì¤€ìœ¼ë¡œ ì‹œê³„ì¶”ë¥¼ íšŒì „
     }
 
     IEnumerator PlayCuckoo()
